@@ -1,27 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.scss';
+import './styles/general.scss';
+import { PostsList } from './components/PostsList';
+import { PostDetails } from './components/PostDetails';
 
-interface Props {
-  onClick: () => void;
-}
+const App: React.FC = () => {
+  const [postId, setPostId] = useState(0);
 
-export const Provider: React.FC<Props> = React.memo(
-  ({ onClick, children }) => (
-    <button
-      type="button"
-      onClick={onClick}
-    >
-      {children}
-    </button>
-  ),
-);
-
-export const App: React.FC = () => {
   return (
-    <div className="starter">
-      <Provider onClick={() => ({})}>
-        <TodoList />
-      </Provider>
+    <div className="App">
+
+      <main className="App__main">
+        <div className="App__sidebar">
+          <PostsList
+            selectedPostId={postId}
+            selectPost={setPostId}
+          />
+        </div>
+
+        {postId !== 0 && (
+          <div className="App__content">
+            <PostDetails
+              selectedPostId={postId}
+            />
+          </div>
+        )}
+      </main>
     </div>
   );
 };
+
+export default App;
